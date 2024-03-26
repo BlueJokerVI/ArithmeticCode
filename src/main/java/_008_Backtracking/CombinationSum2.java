@@ -7,9 +7,9 @@ import java.util.*;
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
- * @Description: https://leetcode.cn/problems/combination-cur-ii/
+ * @Description: https://leetcode.cn/problems/combination-sum-ii/description/
  */
-public class Combinationcur2 {
+public class CombinationSum2 {
     List<List<Integer>> ans = new ArrayList<>();
     List<Integer> path = new ArrayList<>();
     int cur = 0;
@@ -18,7 +18,7 @@ public class Combinationcur2 {
      * 标记每个节点可以重复的次数
      */
     int[] cnt = new int[51];
-    public List<List<Integer>> combinationcur2(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<Integer> list = new ArrayList<>();
         Arrays.fill(cnt,0);
         for (int candidate : candidates) {
@@ -96,7 +96,7 @@ public class Combinationcur2 {
     @Test
     public void test(){
         int t[] = new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-        this.combinationcur2(t,5);
+        this.combinationSum2(t,5);
 
     }
 
