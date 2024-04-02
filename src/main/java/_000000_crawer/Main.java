@@ -2,10 +2,8 @@ package _000000_crawer;
 import javafx.util.Pair;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
@@ -18,15 +16,15 @@ public class Main {
     Map<Pair<String ,String >,Integer> mp = new HashMap<>();
     @Test
     public  void test() {
-        Pair<String ,String > mpk = new Pair<>("1","2");
+        HashSet<String> strings = new HashSet<>();
+        strings.add("S");
+        strings.add("A");
+        strings.add("B");
 
-        mp.put(mpk,1);
-        
-        Pair<String ,String > mpk1 = new Pair<>("1","2");
+        for (String string : strings) {
+            System.out.println(string);
+        }
 
-        Integer integer = mp.get(mpk1);
-        System.out.println(integer);
-        System.out.println(mpk==mpk1);
     }
 
 

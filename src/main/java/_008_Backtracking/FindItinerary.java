@@ -16,7 +16,6 @@ public class FindItinerary {
 
     Map<Pair<String,String>,Integer> vis = new HashMap<>();
     Map<String , Set<String>> mp = new HashMap<>();
-    
     int cnt;
     public List<String> findItinerary(List<List<String>> tickets) {
 
@@ -25,11 +24,12 @@ public class FindItinerary {
             cnt++;
             String x = ticket.get(0);
             String y = ticket.get(1);
-            Pair<String, String> pair = new Pair<String,String >(x,y);
+            Pair<String, String> pair = new Pair<>(x,y);
 
             Set<String> strings = mp.get(x);
             if(mp.get(x)==null){
-                strings = new HashSet<>();
+                //使用TreeSet保证路径有序，从小到大
+                strings = new TreeSet<>();
             }
             strings.add(y);
             mp.put(x,strings);
@@ -46,18 +46,16 @@ public class FindItinerary {
 
     void dfs(String s){
 
+        if(ans.size()!=0){
+            return;
+        }
+        //得到一个路径就是满足条件的路径
         if(path.size() == cnt+1){
-            if(ans.size()==0){
-                ans = path;
-            }else {
-                ans = new ArrayList<>(minAns(ans,path));
-            }
-
+            ans = new ArrayList<>(path);
             return;
         }
 
         Set<String> strings = mp.get(s);
-
         if(strings==null){
             return;
         }
@@ -66,38 +64,17 @@ public class FindItinerary {
         for (String string : strings) {
             Pair<String, String> pair = new Pair<>(s, string);
             Integer integer = vis.get(pair);
+
             if(integer!=0){
                 vis.put(pair, integer-1);
                 path.add(string);
                 dfs(string);
-                vis.put(pair,integer+1);
+                vis.put(pair,integer);
                 path.remove(path.size()-1);
             }
         }
     }
 
-
-    List<String> minAns (List<String> l1 , List<String> l2){
-
-        for (int i = 0; i < l1.size(); i++) {
-            String s1 = l1.get(i);
-            String s2 = l2.get(i);
-
-            if(s1.equals(s2)){
-                continue;
-            }
-
-            for (int j=0;j<s1.length();j++){
-
-                if(s1.charAt(j)==s2.charAt(j)){
-                    continue;
-                }
-                return s1.charAt(j) > s2.charAt(j) ?l2 : l1;
-            }
-        }
-        //不会走到这
-        return l1;
-    }
 
 
 
@@ -105,12 +82,41 @@ public class FindItinerary {
 
     @Test
     public void test(){
-        String[] arr = new String[]{"JFK","ATL","JFK","SFO","ATL","JFK"};
-        String[] arr1 = new String[]{"JFK","ATL","JFK","SFO","ATL","SFO"};
-        List<String> strings = minAns(Arrays.asList(arr), Arrays.asList(arr1));
-        for (String string : strings) {
-            System.out.println(string);
-        }
+//        String[] arr = new String[]{"JFK","ATL","JFK","SFO","ATL","JFK"};
+//        String[] arr1 = new String[]{"JFK","ATL","JFK","SFO","ATL","SFO"};
+//        List<String> strings = minAns(Arrays.asList(arr), Arrays.asList(arr1));
+//        for (String string : strings) {
+//            System.out.println(string);
+//        }
+
+
+        List<List<String>> tickets = new ArrayList<>();
+        List<String> tmp1 = new ArrayList<>();
+        List<String> tmp2 = new ArrayList<>();
+        List<String> tmp3 = new ArrayList<>();
+        List<String> tmp4 = new ArrayList<>();
+        List<String> tmp5 = new ArrayList<>();
+
+        tmp1.add("JFK");
+        tmp1.add("SFO");
+        tmp2.add("JFK");
+        tmp2.add("ATL");
+        tmp3.add("SFO");
+        tmp3.add("ATL");
+        tmp4.add("ATL");
+        tmp4.add("JFK");
+        tmp5.add("ATL");
+        tmp5.add("SFO");
+        tickets.add(tmp1);
+        tickets.add(tmp2);
+        tickets.add(tmp3);
+        tickets.add(tmp4);
+        tickets.add(tmp5);
+
+        Collections.sort(tickets, Comparator.comparing(a -> a.get(1)));
+
+        System.out.println(1);
+
     }
 
 }
