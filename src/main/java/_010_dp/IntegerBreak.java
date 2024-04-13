@@ -16,6 +16,7 @@ public class IntegerBreak {
         dp[2] = 1;
 
         for(int i=3;i<=n;i++){
+            //枚举才分最后一位的值
             for(int j=1;j<i;j++){
                 dp[i] = Math.max((i-j)*j,dp[i-j]*j);
             }
