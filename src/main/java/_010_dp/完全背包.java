@@ -60,11 +60,22 @@ public class 完全背包 {
             value[i] = scanner.nextInt();
         }
 
+        //先遍历物品、再遍历背包容量
         for(int i=0;i<n;i++){
             for(int j=cost[i];j<=v;j++){
                 dp[j] = Math.max(dp[j],dp[j-cost[i]]+value[i]);
             }
         }
+// 纯背包问题遍历物品和遍历背包的容量没有关系
+//        for(int j=1;j<=v;j++){
+//            for(int i=0;i<n;i++){
+//                if(cost[i]>j){
+//                    continue;
+//                }
+//                dp[j] = Math.max(dp[j],dp[j-cost[i]]+value[i]);
+//            }
+//        }
+
 
         System.out.printf("%d",dp[v]);
 
