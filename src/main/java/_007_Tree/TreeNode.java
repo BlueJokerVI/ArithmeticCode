@@ -8,7 +8,7 @@ package _007_Tree;
  * @Version: 1.0
  */
 public class TreeNode {
-    Integer val;
+    public Integer val;
     public TreeNode left;
     public TreeNode right;
 
