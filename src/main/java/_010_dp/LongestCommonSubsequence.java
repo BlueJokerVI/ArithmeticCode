@@ -53,7 +53,8 @@ public class LongestCommonSubsequence {
     }
 
     @Test
-    public void test(){
+    public void test()
+    {
         longestCommonSubsequence("abcde","ace");
     }
 }
