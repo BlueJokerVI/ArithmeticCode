@@ -1,4 +1,4 @@
-package _012_graphic;
+package _012_graphic.dfs_bfs;
 
 import javafx.util.Pair;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package _012_graphic;
+package _012_graphic.dfs_bfs;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,16 +1,28 @@
-package _012_graphic;
+package _012_graphic.dfs_bfs;
 
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
- * @Description: https://leetcode.cn/problems/max-area-of-island/
+ * @Description: https://leetcode.cn/problems/number-of-enclaves/
  */
-public class MaxAreaOfIsland {
+public class NumEnclaves {
 
+    boolean[][] vis = new boolean[501][501];
     int ans;
     int cur;
-    boolean[][] vis = new boolean[51][51];
-    public int maxAreaOfIsland(int[][] grid) {
+    public int numEnclaves(int[][] grid) {
+
+        //先遍历边界上的起点
+        for(int j=0;j<grid[0].length;j++){
+            dfs(0,j,grid);
+            dfs(grid.length-1,j,grid);
+        }
+        for(int i=0;i< grid.length;i++){
+            dfs(i,0,grid);
+            dfs(i,grid[0].length-1,grid);
+        }
+
+        //在遍历没有遍历过的点
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if(grid[i][j]==0 || vis[i][j]){
@@ -18,15 +30,15 @@ public class MaxAreaOfIsland {
                 }
                 cur = 0;
                 dfs(i,j,grid);
-                if(ans>cur){
-                    ans = cur;
-                }
+                ans += cur;
             }
         }
+
         return ans;
     }
 
-    void dfs(int i, int j, int[][] grid) {
+
+    void dfs(int i,int j,int[][] grid){
         if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j]==0 || vis[i][j]) {
             return;
         }
@@ -37,5 +49,4 @@ public class MaxAreaOfIsland {
         dfs(i,j+1,grid);
         dfs(i,j-1,grid);
     }
-
 }
