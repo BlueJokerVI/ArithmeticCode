@@ -1,5 +1,12 @@
 package _007_Tree;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
@@ -113,6 +120,65 @@ public class Test {
         cur.left = buildTreeWithI_P(inorder,il,index-1,postorder,pl,pl+lenL-1);
         cur.right = buildTreeWithI_P(inorder,index+1,ir,postorder,pl+lenL,pr-1);
         return cur;
+    }
+
+    public Node connect(Node root) {
+
+        if (root==null){
+            return null;
+        }
+
+        Node cur = root;
+        Node pre = null;
+        Deque<Node> q = new ArrayDeque<>();
+        q.push(cur);
+
+        while (!q.isEmpty()){
+            int levelTime = q.size();
+            pre=null;
+            for (int i = 0; i < levelTime; i++) {
+                cur = q.poll();
+                if(pre!=null){
+                    pre.next = cur;
+                }
+                pre = cur;
+                if(i==q.size()-1){
+                    cur.next = null;
+                }
+
+                if(cur.left!=null){
+                    q.offer(cur.left);
+                }
+                if(cur.right!=null){
+                    q.offer(cur.right);
+                }
+            }
+        }
+
+        return root;
+    }
+
+    //拼接链表写法
+    public Node connect1(Node root) {
+        Node dummy = new Node();
+        Node cur = root;
+        while (cur != null) {
+            dummy.next = null;
+            Node nxt = dummy; // 下一层的链表
+            while (cur != null) { // 遍历当前层的链表
+                if (cur.left != null) {
+                    nxt.next = cur.left; // 下一层的相邻节点连起来
+                    nxt = cur.left;
+                }
+                if (cur.right != null) {
+                    nxt.next = cur.right; // 下一层的相邻节点连起来
+                    nxt = cur.right;
+                }
+                cur = cur.next; // 当前层链表的下一个节点
+            }
+            cur = dummy.next; // 下一层链表的头节点
+        }
+        return root;
     }
 
 }

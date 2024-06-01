@@ -10,6 +10,9 @@ import java.util.List;
 class Node {
     public int val;
     public List<Node> children;
+    Node left;
+    Node right;
+    Node next;
 
     public Node() {}
 
