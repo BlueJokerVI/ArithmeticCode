@@ -1,6 +1,8 @@
 package _007_Tree;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -28,4 +30,26 @@ public class InorderTraversal {
         getPre(ans,root.right);
 
     }
+
+    //迭代法中序遍历
+    public List<Integer> inorderTraversal1(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Deque<TreeNode> s = new ArrayDeque<>();
+
+        while (root!=null || !s.isEmpty()){
+            while (root!=null){
+                s.push(root);
+                root = root.left;
+            }
+
+            TreeNode poll = s.poll();
+            ans.add(poll.val);
+
+            root = poll.right;
+        }
+
+        return ans;
+    }
+
+
 }
