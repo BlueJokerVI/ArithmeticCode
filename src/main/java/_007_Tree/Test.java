@@ -1,7 +1,6 @@
 package _007_Tree;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 /**
  * @BelongsProject: ArithmeticCode
@@ -230,7 +229,7 @@ public class Test {
     boolean f = false;
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        findAncestor(root,p,q);
+        findAncestor(root, p, q);
         return ans;
     }
 
@@ -253,11 +252,162 @@ public class Test {
         next[0] = l[0] || r[0] || next[0];
         next[1] = l[1] || r[1] || next[1];
 
-        if(!f && next[0] && next[1]){
+        if (!f && next[0] && next[1]) {
             ans = node;
             f = true;
         }
         return next;
+    }
+
+
+    public List<Integer> rightSideView(TreeNode root) {
+
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        Deque<TreeNode> q = new ArrayDeque<>();
+        List<Integer> ans = new ArrayList<>();
+
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode pop = q.remove();
+                if (pop.left != null) {
+                    q.offer(pop.left);
+                }
+                if (pop.right != null) {
+                    q.offer(pop.right);
+                }
+                if (i == n - 1) {
+                    ans.add(pop.val);
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public List<Double> averageOfLevels(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        Deque<TreeNode> q = new ArrayDeque<>();
+        List<Double> ans = new ArrayList<>();
+
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int n = q.size();
+            double tmp = 0;
+            for (int i = 0; i < n; i++) {
+                TreeNode pop = q.remove();
+                tmp += pop.val;
+                if (pop.left != null) {
+                    q.offer(pop.left);
+                }
+                if (pop.right != null) {
+                    q.offer(pop.right);
+                }
+                if (i == n - 1) {
+                    ans.add(tmp / n);
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        Deque<TreeNode> q = new ArrayDeque<>();
+        List<List<Integer>> ans = new ArrayList<>();
+
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int n = q.size();
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                TreeNode pop = q.remove();
+                tmp.add(pop.val);
+                if (pop.left != null) {
+                    q.offer(pop.left);
+                }
+                if (pop.right != null) {
+                    q.offer(pop.right);
+                }
+                if (i == n - 1) {
+                    ans.add(tmp);
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        Deque<TreeNode> q = new ArrayDeque<>();
+        List<List<Integer>> ans = new ArrayList<>();
+
+        boolean f = true;
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int n = q.size();
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                TreeNode pop = q.remove();
+                tmp.add(pop.val);
+
+                if (pop.left != null) {
+                    q.offer(pop.left);
+                }
+                if (pop.right != null) {
+                    q.offer(pop.right);
+                }
+                if (i == n - 1) {
+                    if(f){
+                        ans.add(tmp);
+                        f = false;
+                    }else {
+                        Collections.reverse(tmp);
+                        ans.add(tmp);
+                        f = true;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public int getMinimumDifference(TreeNode root) {
+        findMin(root);
+        return minAns;
+    }
+
+    private int pre = Integer.MAX_VALUE;
+    private int minAns = Integer.MAX_VALUE;
+    private void findMin(TreeNode root){
+        if(root==null){
+            return;
+        }
+
+        findMin(root.left);
+        int v = Math.abs(root.val - pre);
+        if(v<minAns){
+            minAns = v;
+        }
+        pre = root.val;
+        findMin(root.right);
     }
 
 
