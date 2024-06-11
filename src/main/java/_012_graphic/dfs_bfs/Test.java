@@ -1,5 +1,7 @@
 package _012_graphic.dfs_bfs;
 
+import java.util.*;
+
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
@@ -86,16 +88,64 @@ public class Test {
         }
     }
 
-    @org.junit.Test
-    public void test(){
-        int[][] mp = new int[][]{{1},{2}};
-        System.out.println(mp[0][0]);
-        v(mp);
-        System.out.println(mp[0][0]);
+
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> set = new HashSet<>(wordList);
+        if(!set.contains(endWord)){
+            return 0;
+        }
+        Deque<String> q = new ArrayDeque<>();
+        Map<String,Integer> mp = new HashMap<>();
+        q.add(beginWord);
+        mp.put(beginWord,1);
+
+        while (!q.isEmpty()){
+            int size = q.size();
+            while (size-- > 0){
+                String cur = q.remove();
+                int step = mp.get(cur);
+                char[] chars = cur.toCharArray();
+                for (int i = 0; i < chars.length; i++) {
+                    for (char j = 'a'; j <= 'z'; j++) {
+                        if(chars[i]==j){
+                            continue;
+                        }
+                        char tmp = chars[i];
+                        chars[i] = j;
+                        String copy = String.valueOf(chars);
+
+                        if(copy.equals(endWord)){
+                            return step+1;
+                        }
+
+                        if(mp.containsKey(copy)){
+                            chars[i] = tmp;
+                            continue;
+                        }
+
+                        if (set.contains(copy)) {
+                            q.add(copy);
+                            mp.put(copy,step+1);
+                        }
+                        chars[i] = tmp;
+                    }
+                }
+            }
+        }
+
+        return 0;
     }
 
-    void v(int [][] mp){
-        mp[0][0] = 100;
+
+
+    @org.junit.Test
+    public void test(){
+        String[] strings = new String[]{"hot","dog","dot"};
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(strings));
+        ladderLength("hot","dog",arrayList);
+
     }
+
+
 
 }
