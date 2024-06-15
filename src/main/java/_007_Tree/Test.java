@@ -1,5 +1,7 @@
 package _007_Tree;
 
+import sun.reflect.generics.tree.Tree;
+
 import java.util.*;
 
 /**
@@ -410,5 +412,25 @@ public class Test {
         findMin(root.right);
     }
 
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return buildT(nums,0,nums.length-1);
+    }
+
+    private TreeNode buildT(int[] nums,int l,int r){
+        if(l>r){
+            return null;
+        }
+
+        if(l==r){
+            return new TreeNode(nums[l]);
+        }
+
+        int mid = (l + r) /2;
+        TreeNode cur = new TreeNode(nums[mid]);
+        cur.left = buildT(nums,l,mid-1);
+        cur.right = buildT(nums,mid+1,r);
+        return cur;
+    }
 
 }
