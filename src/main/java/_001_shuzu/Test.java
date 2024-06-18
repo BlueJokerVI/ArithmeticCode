@@ -45,4 +45,20 @@ public class Test {
 
         return ans.stream().map((list)-> list.stream().mapToInt(Integer::intValue).toArray()).toArray(int[][]::new);
     }
+
+
+    public int maxSubArray(int[] nums) {
+        int sum = 0;
+        int ans = Integer.MIN_VALUE;
+        for (int num : nums) {
+            sum +=num;
+            if(sum > ans){
+                ans = sum;
+            }
+            if(sum < 0 ){
+                sum = 0;
+            }
+        }
+        return ans;
+    }
 }
