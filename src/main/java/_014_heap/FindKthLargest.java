@@ -13,75 +13,92 @@ public class FindKthLargest {
         for (int num : nums) {
             heap.add(num);
         }
-
         k--;
         while (k-- > 0) {
             heap.poll();
         }
         return heap.poll();
-
     }
 
-    public class Solution {
-        private int quickSelect(List<Integer> nums, int k) {
-            // 随机选择基准数
-            Random rand = new Random();
-            int pivot = nums.get(rand.nextInt(nums.size()));
-            // 将大于、小于、等于 pivot 的元素划分至 big, small, equal 中
-            List<Integer> big = new ArrayList<>();
-            List<Integer> equal = new ArrayList<>();
-            List<Integer> small = new ArrayList<>();
-            for (int num : nums) {
-                if (num > pivot)
-                    big.add(num);
-                else if (num < pivot)
-                    small.add(num);
-                else
-                    equal.add(num);
-            }
-            // 第 k 大元素在 big 中，递归划分
-            if (k <= big.size())
-                return quickSelect(big, k);
-            // 第 k 大元素在 small 中，递归划分
-            // x y z
-            if (nums.size() - small.size() < k)
-                //s + e + b = n
-                //  k - b - e = k + s -n
-                return quickSelect(small, k - nums.size() + small.size());
-            // 第 k 大元素在 equal 中，直接返回 pivot
-            return pivot;
-        }
-
-        public int findKthLargest(int[] nums, int k) {
-            List<Integer> numList = new ArrayList<>();
-            for (int num : nums) {
-                numList.add(num);
-            }
-            return quickSelect(numList, k);
-        }
-    }
-
-
+    //快速选择法
     class Solution1 {
-        int quickselect(int[] nums, int l, int r, int k) {
-            if (l == r) return nums[k];
-            int x = nums[l], i = l - 1, j = r + 1;
-            while (i < j) {
-                do i++; while (nums[i] < x);
-                do j--; while (nums[j] > x);
-                if (i < j) {
-                    int tmp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = tmp;
-                }
-            }
-            if (k <= j) return quickselect(nums, l, j, k);
-            else return quickselect(nums, j + 1, r, k);
+        public int findKthLargest(int[] nums, int k) {
+            return quickSelect(nums,0,nums.length-1,k);
         }
 
-        public int findKthLargest(int[] _nums, int k) {
-            int n = _nums.length;
-            return quickselect(_nums, 0, n - 1, n - k);
+        public int quickSelect(int[] nums, int l, int r, int k) {
+
+            int left = l;
+            int right = r;
+
+            Random random = new Random();
+            int x = l + random.nextInt(r - l + 1);
+            int pivot = nums[x];
+            nums[x] = nums[l];
+
+            while (l < r) {
+                while (l < r && nums[r] >= pivot) {
+                    r--;
+                }
+                nums[l] = nums[r];
+                while (l < r && nums[l] <= pivot) {
+                    l++;
+                }
+                nums[r] = nums[l];
+            }
+            nums[l] = pivot;
+
+            //比pivot大的个数为right - l ,找到第k大的元素
+            if (k - 1 == right - l) {
+                return pivot;
+            }
+
+            if (k <= right - l) {
+                return quickSelect(nums, l + 1, right, k);
+            } else {
+                return quickSelect(nums, left, l - 1, k - (right - l + 1));
+            }
+
+        }
+    }
+
+    //建堆法
+    class Solution2 {
+        public int findKthLargest(int[] nums, int k) {
+            int heapSize = nums.length;
+            buildMaxHeap(nums, heapSize);
+            for (int i = nums.length - 1; i >= nums.length - k + 1; --i) {
+                swap(nums, 0, i);
+                --heapSize;
+                maxHeapify(nums, 0, heapSize);
+            }
+            return nums[0];
+        }
+
+        public void buildMaxHeap(int[] a, int heapSize) {
+            for (int i = heapSize / 2; i >= 0; --i) {
+                maxHeapify(a, i, heapSize);
+            }
+        }
+
+        public void maxHeapify(int[] a, int i, int heapSize) {
+            int l = i * 2 + 1, r = i * 2 + 2, largest = i;
+            if (l < heapSize && a[l] > a[largest]) {
+                largest = l;
+            }
+            if (r < heapSize && a[r] > a[largest]) {
+                largest = r;
+            }
+            if (largest != i) {
+                swap(a, i, largest);
+                maxHeapify(a, largest, heapSize);
+            }
+        }
+
+        public void swap(int[] a, int i, int j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
         }
     }
 
