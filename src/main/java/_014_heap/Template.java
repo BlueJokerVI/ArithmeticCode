@@ -26,6 +26,15 @@ public class Template{
         }
     }
 
+    //向上调整
+    private void shiftUp(int[] nums, int index) {
+        int fa = Math.max((index - 1) / 2, 0);
+        if(nums[fa] < nums[index]){
+            swap(nums,fa,index);
+            shiftUp(nums,fa);
+        }
+    }
+
     int getHeapTop(){
         return heap[0];
     }
@@ -41,7 +50,7 @@ public class Template{
     void insertHeap(int val){
         heapSize ++;
         heap[heapSize-1] = val;
-        heapify(heap,(heapSize-1)/2,heapSize);
+        shiftUp(heap,heapSize-1);
     }
 
 

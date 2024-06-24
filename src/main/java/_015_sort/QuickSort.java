@@ -27,7 +27,6 @@ public class QuickSort {
         int pivot = nums[x];
         //且将基准先移到首个元素位置方便后序填坑操作
         nums[x] = nums[l];
-        nums[l] = pivot;
 
         while (l<r){
             while (l<r && nums[r] >= pivot){
