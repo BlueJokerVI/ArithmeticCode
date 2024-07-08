@@ -24,13 +24,14 @@ public class WordBreak {
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
 
-        //dp[j] 表示在0~j的子串能否由字典的字符串组成
-        //dp[j+i] 诺dp[j] = true 且 substr(j+1,j+i+1) 存在于字典内 则dp[j+i] = true
+        //dp[j] 表示在[0,j-1]的子串能否由字典的字符串组成
+        //诺dp[i]=true,且substring(i,j)在set内，则dp[j] = true
 
-        for (int j = 1; j <= s.length(); j++) {  //遍历背包容量
-            for (int i = 0; i < j && !dp[j]; i++) {  // 遍历物品
-                if (set.contains(s.substring(i, j)) && dp[i]) {
+        for (int j = 1; j <= s.length(); j++) {
+            for (int i = 0; i < j; i++) {
+                if (dp[i] && set.contains(s.substring(i, j))) {
                     dp[j] = true;
+                    break;
                 }
             }
         }

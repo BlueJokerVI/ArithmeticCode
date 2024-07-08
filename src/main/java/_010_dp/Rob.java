@@ -30,6 +30,29 @@ public class Rob {
         return dp[nums.length-1];
     }
 
+    /**
+     * 二维写法
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        // dp[i][0]表示[0,i]偷i可获得的最大价值
+        // dp[i][1]表示[0,i]不偷i可获得的最大价值
+        // dp[i][0] = dp[i-1][1] + nums[i]
+        // dp[i][1] = max(dp[i-1][1],dp[i-1][0])
+
+        int[][] dp = new int[101][2];
+        dp[0][0] = nums[0];
+        dp[0][1] = 0;
+
+        for (int i = 1; i < nums.length; i++) {
+            dp[i][0] = dp[i-1][1] + nums[i];
+            dp[i][1] = Math.max(dp[i-1][1],dp[i-1][0]);
+        }
+
+        return Math.max(dp[nums.length-1][0],dp[nums.length-1][1]);
+    }
+
 
     /**
      * 记忆化搜索
