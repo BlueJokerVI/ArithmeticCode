@@ -28,6 +28,7 @@ public class LengthOfLIS {
         Arrays.fill(dp,1);
         int ans = Integer.MIN_VALUE;
         for (int i = 1; i < nums.length; i++) {
+            //还可以用二分优化时间复杂度：https://leetcode.cn/problems/longest-increasing-subsequence/solutions/24173/zui-chang-shang-sheng-zi-xu-lie-dong-tai-gui-hua-2/?envType=study-plan-v2&envId=top-interview-150
             for (int j = 0; j < i; j++) {
                 if(nums[i]>nums[j]){
                     dp[i] = Math.max(dp[i],dp[j]+1);
