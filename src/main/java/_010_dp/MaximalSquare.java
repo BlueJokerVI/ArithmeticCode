@@ -12,22 +12,23 @@ public class MaximalSquare {
         // base condition
         if (matrix == null || matrix.length < 1 || matrix[0].length < 1) return 0;
 
-        int height = matrix.length;
-        int width = matrix[0].length;
-        int maxSide = 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
 
-        // 相当于已经预处理新增第一行、第一列均为0
-        //dp(i, j) 是以 matrix(i - 1, j - 1) 为 右下角 的正方形的最大边长。
-        int[][] dp = new int[height + 1][width + 1];
+        //dp[i+1][j+1] 表示一以 matrix[i][j]为正方形右下角的最大边长
+        int[][] dp = new int[m+1][n+1];
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (matrix[i][j] == '1') {
-                    dp[i + 1][j + 1] = Math.min(Math.min(dp[i + 1][j], dp[i][j + 1]), dp[i][j]) + 1;
-                    maxSide = Math.max(maxSide, dp[i + 1][j + 1]);
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(matrix[i][j]=='1'){
+                    dp[i+1][j+1] = Math.min(dp[i][j+1],Math.min(dp[i+1][j],dp[i][j])) + 1;
+                    if(dp[i+1][j+1] > ans){
+                        ans = dp[i+1][j+1];
+                    }
                 }
             }
         }
-        return maxSide * maxSide;
+        return ans * ans;
     }
 }
