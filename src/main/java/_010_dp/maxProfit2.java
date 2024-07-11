@@ -22,7 +22,7 @@ public class maxProfit2 {
         int[][] dp = new int[len][5];
         dp[0][1] = -prices[0];
         // 初始化第二次买入的状态是确保 最后结果是最多两次买卖的最大利润
-        dp[0][3] = -prices[0];
+        dp[0][3] = -prices[0]; //相当于买入，卖出，买入
 
         for (int i = 1; i < len; i++) {
             dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
