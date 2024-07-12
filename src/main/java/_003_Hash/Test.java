@@ -1,7 +1,6 @@
 package _003_Hash;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @BelongsProject: ArithmeticCode
@@ -147,14 +146,86 @@ public class Test {
             }
             set.add(sum);
 
-            n =  sum;
+            n = sum;
         }
         return true;
     }
 
+    private int find(int[] nums, int v, int l, int r) {
+        if (l > r) {
+            return -1;
+        }
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] < v) {
+                l = mid + 1;
+            } else if (nums[mid] > v) {
+                r = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+
+    public int longestConsecutive(int[] nums) {
+
+        // key : 数组内的某一个值
+        // value : 以该值所在连续序列最大长度
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int v = nums[i];
+            if (mp.containsKey(v)) {
+                continue;
+            }
+            // 5 4  3 2 1     3    r-l + 1 = len   l = len  - r + 1
+            int len;
+            if (mp.containsKey(v - 1) && mp.containsKey(v + 1)) {
+                len = mp.get(v - 1);
+                //最左的元素值
+                int l = v-len;
+                len = mp.get(v + 1);
+                //最右边元素值
+                int r = len + v;
+                //新的最大长度
+                len = r - l + 1;
+                //更新序列两端的最大值,每次更新只会在序列的两端
+                mp.put(l, len);
+                mp.put(r, len);
+                mp.put(v,len);
+            } else if (mp.containsKey(v - 1)) {
+                len = mp.get(v - 1);
+                //最左的元素值   v-1 - l + 1 = len   l = v-1+1 -len
+                int l = v-len;
+                len = v - l + 1;
+                mp.put(l, len);
+                mp.put(v,len);
+            } else if(mp.containsKey(v + 1)){
+                len = mp.get(v + 1);
+                //最右边元素值
+                int r = len + v;
+                len = r - v + 1;
+                mp.put(r, len);
+                mp.put(v,len);
+            }else {
+                len = 1;
+                mp.put(v,len);
+            }
+            if (len > ans) {
+                ans = len;
+            }
+        }
+        return ans;
+    }
+
+
+
+
 
     @org.junit.Test
     public void test() {
-        twoSum(new int[]{3, 3}, 6);
+        longestConsecutive(new int[]{4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3});
     }
 }

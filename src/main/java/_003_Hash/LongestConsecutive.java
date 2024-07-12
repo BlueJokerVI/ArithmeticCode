@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @BelongsProject: ArithmeticCode
  * @Author: cct
- * @Description:
+ * @Description: https://leetcode.cn/problems/longest-consecutive-sequence/submissions/?envType=study-plan-v2&envId=top-100-liked
  */
 public class LongestConsecutive {
 
