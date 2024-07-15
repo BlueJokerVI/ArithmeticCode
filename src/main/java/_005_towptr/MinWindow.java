@@ -61,7 +61,7 @@ public class MinWindow {
         int ansL = -1;
         int ansR = s.length();
 
-        //diff表示s子串与t串不同字母的数量
+        //diff表示s子串与t串不同字母的数量，方便快速判断当前字串是否覆盖t
         int diff = 0;
         for (int i = 0; i < t.length(); i++) {
             if(cntT[t.charAt(i)]==0){
