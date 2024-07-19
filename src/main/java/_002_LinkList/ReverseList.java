@@ -38,6 +38,31 @@ public class ReverseList {
 
         return  headNode.next;
     }
+
+
+    /**
+     * 冗余节点头插法
+     * @param head
+     * @return
+     */
+    public ListNode reverseList1(ListNode head) {
+
+        if(head==null){
+            return null;
+        }
+
+        // 1 2 3 4
+        ListNode dumpy  = new ListNode();
+        ListNode cur = head;
+        while (cur!=null){
+            ListNode tmp = cur.next;
+            cur.next = dumpy.next;
+            dumpy.next = cur;
+            cur = tmp;
+        }
+
+        return dumpy.next;
+    }
 }
 
 

@@ -5,6 +5,10 @@ import java.util.*;
  * @BelongsProject: ArithmeticCode
  * @Author: cct
  * @Description: https://leetcode.cn/problems/lru-cache/?envType=study-plan-v2&envId=top-interview-150
+ *
+ * 1.维护map<key,Node>
+ * 2.通过双向链表 + dumpy节点快速头插入、尾插入
+ * 3.通过map,快速实现某一节点的删除
  */
 public class LRUCache {
     private static class Node {

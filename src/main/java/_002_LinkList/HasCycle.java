@@ -7,19 +7,15 @@ package _002_LinkList;
  */
 public class HasCycle {
     public boolean hasCycle(ListNode head) {
-        ListNode slow = head;
+        if (head == null) {
+            return false;
+        }
         ListNode fast = head;
-        while (fast!=null) {
+        ListNode slow = head;
+        //有环的话，块指针一定追上慢指针
+        while (fast!=null && fast.next != null) {
+            fast = fast.next.next;
             slow = slow.next;
-            if(fast.next!=null){
-                fast = fast.next.next;
-            }else {
-                fast = null;
-            }
-
-            if(fast==null){
-                return false;
-            }
 
             if(fast==slow){
                 return true;
