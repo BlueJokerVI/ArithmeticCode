@@ -72,6 +72,7 @@ public class Flatten {
         flatten2(root.left);
         root.left=null;
         root.right = later;
+        later = root;
     }
 
 
