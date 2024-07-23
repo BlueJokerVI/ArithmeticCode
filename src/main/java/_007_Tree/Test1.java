@@ -1,9 +1,8 @@
 package _007_Tree;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import org.junit.Test;
+
+import java.util.*;
 
 /**
  * @BelongsProject: ArithmeticCode
@@ -214,5 +213,71 @@ public class Test1 {
         }
     }
 
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTreeDfs(preorder,0, preorder.length-1, inorder, 0,inorder.length-1);
+    }
+
+    //preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+    private TreeNode buildTreeDfs(int[] preorder,int l,int r,int[] inorder,int s,int e){
+        if(l>r || s>e){
+            return null;
+        }
+
+        TreeNode cur = new TreeNode(preorder[l]);
+        int index = s;
+        while (inorder[index]!=cur.val){
+            index++;
+        }
+
+        //index-s+l = x
+        cur.left = buildTreeDfs(preorder,l+1,index-s+l,inorder,s,index-1);
+        cur.right = buildTreeDfs(preorder,index-s+l+1,r,inorder,index+1,e);
+        return cur;
+    }
+
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        return lcaDfs(root, p, q);
+    }
+
+
+    private TreeNode lcaDfs(TreeNode root, TreeNode p, TreeNode q){
+        if(root==null){
+            return null;
+        }
+        TreeNode l = lcaDfs(root.left,p,q);
+        TreeNode r = lcaDfs(root.right,p,q);
+
+        if((l==p && r==q) || (r==p && l==q)){
+            return root;
+        }else if(root==p || root==q){
+            return root;
+        }else if(l==null){
+            return r;
+        }else {
+            return l;
+        }
+    }
+
+
+    int maxV = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxPathSumDfs(root);
+        return maxV;
+    }
+    public int maxPathSumDfs(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        int l = maxPathSumDfs(root.left);
+        int r = maxPathSumDfs(root.right);
+//        System.out.println("root: "+root.val +"   l: "+l +"   r:"+r);
+        int cur =  root.val + Math.max(0,l) + Math.max(0,r);
+        if(cur > maxV){
+            maxV = cur;
+        }
+        return root.val+Math.max(Math.max(0,l) , Math.max(0,r));
+    }
 
 }
