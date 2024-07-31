@@ -99,4 +99,15 @@ public class Test {
         ans[n-1] = l;
         return ans;
     }
+
+    public int singleNumber(int[] nums) {
+        long ans = 0;
+        boolean[] vis = new boolean[60001];
+        for (int num : nums) {
+            ans += vis[num+30000] ? -num : num;
+            vis[num+30000] = !vis[num+30000];
+        }
+
+        return (int)ans;
+    }
 }
