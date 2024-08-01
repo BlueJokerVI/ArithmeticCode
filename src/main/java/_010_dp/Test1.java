@@ -2,7 +2,10 @@ package _010_dp;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @BelongsProject: ArithmeticCode
@@ -159,9 +162,132 @@ public class Test1 {
         return res;
     }
 
+    public int uniquePaths(int m, int n) {
+
+        //dp[i][j] 从[0][0]到[i-1][j-1]共有多少条路径
+        //dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        int[][] dp = new int[m + 1][n + 1];
+        dp[0][1] = 1;
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m][n];
+    }
+
+
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int pre = Math.min(i - 1 >= 0 ? dp[i - 1][j] : Integer.MAX_VALUE, j - 1 >= 0 ? dp[i][j - 1] : Integer.MAX_VALUE);
+                dp[i][j] = pre == Integer.MAX_VALUE ? 0 : pre + grid[i][j];
+            }
+        }
+
+        return dp[m - 1][n - 1];
+    }
+
+
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        char[] cs = s.toCharArray();
+        boolean[][] dp = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;
+        }
+        int ans = 1;
+        String ansS = String.valueOf(cs[0]);
+        //dp[i][j]标记[i,j]子串是否是回文串
+        //if cs[i]==cs[j] : dp[i][j] = dp[i+1][j-1];
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                if (j - i == 1 && cs[i] == cs[j]) {
+                    dp[i][j] = true;
+                    if (j - i + 1 > ans) {
+                        ans = j - i + 1;
+                        ansS = s.substring(i, j + 1);
+                    }
+                    continue;
+                }
+
+                if (cs[i] == cs[j] && dp[i + 1][j - 1]) {
+                    if (j - i + 1 > ans) {
+                        ans = j - i + 1;
+                        ansS = s.substring(i, j + 1);
+                    }
+                    dp[i][j] = true;
+                }
+
+            }
+
+        }
+        return ansS;
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        char[] cs1 = text1.toCharArray();
+        char[] cs2 = text2.toCharArray();
+        //dp[i][j]表示cs1[0~i-1] 与 cs2[0~i-1]的最长公共子序列长度
+        //if cs[i]==cs[j] : dp[i][j] = max(dp[i-1][j-1],dp[i][j-1],dp[i-1][j]) + 1
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (cs1[i - 1] == cs2[j - 1]) {
+                    dp[i][j] = Math.max(dp[i - 1][j - 1] + 1, Math.max(dp[i][j - 1], dp[i - 1][j]));
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j - 1], Math.max(dp[i][j - 1], dp[i - 1][j]));
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        char[] cs1 = word1.toCharArray();
+        char[] cs2 = word2.toCharArray();
+        int[][] dp = new int[m + 1][n + 1];
+
+        //dp[i][j] 表示[0~i-1] 到 [0~j-1]需要的最少操作数
+        //if cs1[i]==cs2[j] : dp[i][j] = dp[i-1][j-1]
+        //if cs1[i]!=cs2[j] : dp[i][j] = dp[i-1][j-1] + 1
+
+        dp[0][0] = 0;
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = j;
+        }
+
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if(cs1[i-1]==cs2[j-1]){
+                    dp[i][j] =  dp[i-1][j-1];
+                }else {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
 
     @Test
     public void test() {
-        canPartition(new int[] {1,4,5,8,12,13,14,17,18});
+        minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}});
     }
 }
