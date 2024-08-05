@@ -110,4 +110,19 @@ public class Test {
 
         return (int)ans;
     }
+
+    public int majorityElement(int[] nums) {
+        int vote=0;
+        int ans=1;
+        for (int num : nums) {
+            if(vote==0){
+                ans  = num;
+                vote++;
+                continue;
+            }
+            vote += ans==num ? 1 : -1;
+        }
+
+        return ans;
+    }
 }
