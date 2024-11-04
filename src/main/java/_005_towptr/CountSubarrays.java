@@ -32,4 +32,27 @@ public class CountSubarrays {
         }
         return ans;
     }
+
+
+    /**
+     * <a href="https://leetcode.cn/problems/count-subarrays-with-score-less-than-k/">...</a>
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public long countSubarrays(int[] nums, long k) {
+        int n = nums.length;
+        long sum = 0;
+        long ans =0;
+        for (int l = 0, r = 0; r < n; r++) {
+            sum += nums[r];
+            while (l <= r &&  sum * (r - l + 1) >= k) {
+                sum-=nums[l];
+                l++;
+            }
+            ans += r-l+1;
+        }
+        return ans;
+    }
 }
