@@ -1,6 +1,7 @@
 package _013_binary_search;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -73,5 +74,9 @@ public class MinLengthAfterRemovals {
         }
 
         return nums.size() - del;
+    }
+
+    public static void main(String[] args) {
+        new HashMap<Integer,Integer>();
     }
 }
