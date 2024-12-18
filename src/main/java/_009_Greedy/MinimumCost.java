@@ -1,5 +1,7 @@
 package _009_Greedy;
 
+import java.util.Arrays;
+
 /**
  * @author cct
  * https://leetcode.cn/problems/divide-an-array-into-subarrays-with-minimum-cost-i/
@@ -18,5 +20,23 @@ public class MinimumCost {
             }
         }
         return ans + min1 + min2;
+    }
+
+
+    //https://leetcode.cn/problems/minimum-cost-of-buying-candies-with-discount/
+    public int minimumCost1(int[] cost) {
+        Arrays.sort(cost);
+        int ans = 0;
+        int n = cost.length;
+        int t = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            t++;
+            if (t == 3) {
+                t = 0;
+            } else {
+                ans += cost[i];
+            }
+        }
+        return ans;
     }
 }
