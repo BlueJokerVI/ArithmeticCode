@@ -12,7 +12,6 @@ public class AdvantageCount {
 
         int n = nums1.length;
 
-        int[] soucre = Arrays.copyOf(nums1, n);
         int[] ans = new int[n];
         int[] vis = new int[n];
         Arrays.fill(ans, -1);
