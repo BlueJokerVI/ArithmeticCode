@@ -1,7 +1,5 @@
 package _009_Greedy;
 
-import java.util.Arrays;
-
 /**
  * @author cct
  * https://leetcode.cn/problems/equal-sum-arrays-with-minimum-number-of-operations/
@@ -95,9 +93,43 @@ public class MinOperations {
         return ans;
     }
 
+    //https://leetcode.cn/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-ii/
+    public int minOperations2(int[] nums) {
+        boolean change = false;
+        int ans = 0;
+        for (int num : nums) {
+            if ((num == 0 && !change) || (num == 1 && change)) {
+                ans++;
+                change = !change;
+            }
+        }
+        return ans;
+    }
+
+    //https://leetcode.cn/problems/maximum-number-of-operations-to-move-ones-to-the-end/
+    public int maxOperations(String s) {
+        char[] cs = s.toCharArray();
+        int n = cs.length;
+        int l = 0;
+        int cnt1 = 0;
+        int ans = 0;
+        while (l < n) {
+            if (cs[l] == '0') {
+                ans += cnt1;
+                //找到下一个1或到达数组末尾
+                while (l < n && cs[l] == '0') {
+                    l++;
+                }
+            }
+            cnt1++;
+            l++;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         MinOperations t = new MinOperations();
-        t.minOperations(new int[]{6, 6}, new int[]{1});
+        t.maxOperations("00111");
     }
 
 }
