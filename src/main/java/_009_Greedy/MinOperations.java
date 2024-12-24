@@ -127,9 +127,64 @@ public class MinOperations {
         return ans;
     }
 
+
+    //https://leetcode.cn/problems/minimum-operations-to-reduce-an-integer-to-0/solutions/2120204/ji-yi-hua-sou-suo-by-endlesscheng-cm6l/
+    //模拟贪心
+    public int minOperations(int n) {
+        int ans = 0;
+        int[] cs = vtoChar(n);
+        int idx = 0;
+
+        while (idx < 21) {
+            while (idx < 21 && cs[idx] == 0) {
+                idx++;
+            }
+
+            int t = 0;
+            while (idx < 21 && cs[idx] == 1) {
+                idx++;
+                t++;
+            }
+
+            if (t >= 2) {
+                ans += 1;
+                if (t >= 2 && idx < 21) {
+                    cs[idx] = 1;
+                }
+            } else {
+                ans += t;
+            }
+        }
+
+        return ans;
+    }
+
+
+    //dfs
+    public int minOperations1(int n) {
+        if ((n & (n - 1)) == 0) {
+            return 1;
+        }
+        int lowBit = n & -n;
+        return 1 + Math.min(minOperations(n - lowBit), minOperations(n + lowBit));
+    }
+
+    int[] vtoChar(int n) {
+        int[] cs = new int[21];
+        int p = 16;
+        while (n > 0) {
+            while (n < Math.pow(2, p)) {
+                p--;
+            }
+            n -= (int) Math.pow(2, p);
+            cs[p] = 1;
+        }
+        return cs;
+    }
+
     public static void main(String[] args) {
         MinOperations t = new MinOperations();
-        t.maxOperations("00111");
+        t.minOperations(54);
     }
 
 }

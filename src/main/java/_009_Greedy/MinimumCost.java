@@ -39,4 +39,24 @@ public class MinimumCost {
         }
         return ans;
     }
+
+    //https://leetcode.cn/problems/minimum-cost-to-make-all-characters-equal/solutions/2286922/yi-ci-bian-li-jian-ji-xie-fa-pythonjavac-aut0/
+    public long minimumCost(String s) {
+        //010101
+        //110101   1
+        //000101   2
+        //111101   3
+        //111110   2
+        //111111   1
+
+        char[] cs = s.toCharArray();
+        int ans = 0;
+        int n = cs.length;
+        for (int i = 1; i < n; i++) {
+            if (cs[i] != cs[i - 1]) {
+                ans += Math.min(i, n - i);
+            }
+        }
+        return ans;
+    }
 }
