@@ -182,9 +182,46 @@ public class MinOperations {
         return cs;
     }
 
+
+    //glf[i]存储最小质因子
+    static final int mx = 1000001;
+    static final int[] glf = new int[mx];
+
+    static {
+        for (int i = 2; i < mx; i++) {
+            if (glf[i] == 0) {
+                for (int j = i; j < mx; j += i) {
+                    if (glf[j] == 0) {
+                        glf[j] = i;
+                    }
+                }
+            }
+        }
+    }
+
+    public int minOperations3(int[] nums) {
+        int n = nums.length;
+        int ans = 0;
+
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i] <= nums[i + 1]) {
+                continue;
+            }
+            if (glf[nums[i]] <= nums[i + 1]) {
+                nums[i] = glf[nums[i]];
+                ans++;
+            } else {
+                return -1;
+            }
+        }
+        return ans;
+    }
+
+
     public static void main(String[] args) {
         MinOperations t = new MinOperations();
-        t.minOperations(54);
+        t.minOperations3(new int[]{5, 51, 25});
     }
 
 }
