@@ -59,4 +59,71 @@ public class MinimumCost {
         }
         return ans;
     }
+
+
+    public long minimumCost(int m, int n, int[] horizontalCut, int[] verticalCut) {
+        Arrays.sort(horizontalCut);
+        Arrays.sort(verticalCut);
+        long ans = 0;
+        int i = 0;
+        int j = 0;
+        while (i < m - 1 || j < n - 1) {
+            if (j == n - 1 || i < m - 1 && horizontalCut[i] < verticalCut[j]) {
+                // 上下连边
+                ans += (long) horizontalCut[i++] * (n - j);
+            } else {
+                // 左右连边
+                ans += (long) verticalCut[j++] * (m - i);
+            }
+        }
+        return ans;
+    }
+
+
+    public long minimumCost1(int m, int n, int[] horizontalCut, int[] verticalCut) {
+        Arrays.sort(horizontalCut);
+        Arrays.sort(verticalCut);
+        int[] preH = new int[m];
+        for (int i = 0; i < m - 1; i++) {
+            preH[i + 1] = preH[i] + horizontalCut[i];
+        }
+        int[] preV = new int[n];
+        for (int i = 0; i < n - 1; i++) {
+            preV[i + 1] = preV[i] + verticalCut[i];
+        }
+
+        long ans = 0;
+        int l = m - 2;
+        int r = n - 2;
+
+        if (l < 0) {
+            return preV[n - 1];
+        }
+
+        if (r < 0) {
+            return preH[m - 1];
+        }
+
+        while (l >= 0 && r >= 0) {
+            if (horizontalCut[l] > verticalCut[r]) {
+                ans += horizontalCut[l];
+                ans += preV[r + 1];
+                l--;
+                if (l < 0) {
+                    ans += preV[r + 1];
+                }
+            } else {
+                ans += verticalCut[r];
+                ans += preH[l + 1];
+                r--;
+                if (r < 0) {
+                    ans += preH[l + 1];
+                }
+            }
+        }
+
+        return ans;
+    }
+
+
 }
