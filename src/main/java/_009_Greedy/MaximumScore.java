@@ -45,8 +45,26 @@ public class MaximumScore {
         return Math.max(tmp1, tmp2);
     }
 
+    //https://leetcode.cn/problems/maximum-score-from-removing-stones/
+    public int maximumScore(int a, int b, int c) {
+        int ans = 0;
+        int[] arr = new int[3];
+        arr[0] = a;
+        arr[1] = b;
+        arr[2] = c;
+        Arrays.sort(arr);
+        while (arr[2] > 0) {
+            ans++;
+            arr[1]--;
+            arr[2]--;
+            Arrays.sort(arr);
+        }
+        return ans;
+    }
+
+
     public static void main(String[] args) {
         MaximumScore t = new MaximumScore();
-        t.maximumScore(new int[]{1, 2, 8, 9}, 3);
+        t.maximumScore(1, 8, 8);
     }
 }
